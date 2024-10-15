@@ -2,8 +2,8 @@ module Mullvad
   # Main module in charge of connection
   module Manager
     # Default path, copy the files here from /etc/wireguard (in general)
-    PATH = './wireguard'
-    FILES = Dir["#{PATH}/*"].freeze
+    PATH = '/etc/wireguard'
+    FILES = `sudo find /etc/wireguard/ -name *.conf`.split
     CONFIG = 'mullvad.dump'
     COUNTRIES = [
       { value: 'al', name: 'Albania 🇦🇱' },
