@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'tty-prompt'
+require 'countries'
 require_relative 'connection'
 require_relative 'manager'
 

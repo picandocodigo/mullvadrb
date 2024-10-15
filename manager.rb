@@ -5,45 +5,12 @@ module Mullvad
     PATH = '/etc/wireguard'
     FILES = `sudo find /etc/wireguard/ -name *.conf`.split
     CONFIG = 'mullvad.dump'
-    COUNTRIES = [
-      { value: 'al', name: 'Albania 🇦🇱' },
-      { value: 'au', name: 'Australia 🇦🇺' },
-      { value: 'at', name: 'Austria 🇦🇹' },
-      { value: 'be', name: 'Belgium 🇧🇪' },
-      { value: 'br', name: 'Brazil 🇧🇷' },
-      { value: 'bg', name: 'Bulgaria 🇧🇬' },
-      { value: 'ca', name: 'Canada 🇨🇦' },
-      { value: 'co', name: 'Colombia 🇨🇴' },
-      { value: 'hr', name: 'Croatia 🇭🇷' },
-      { value: 'cz', name: 'Czech Republic 🇨🇿' },
-      { value: 'dk', name: 'Denmark 🇩🇰' },
-      { value: 'ee', name: 'Estonia 🇪🇪' },
-      { value: 'fi', name: 'Finland 🇫🇮' },
-      { value: 'fr', name: 'France 🇫🇷' },
-      { value: 'de', name: 'Germany 🇩🇪' },
-      { value: 'gr', name: 'Greece 🇬🇷' },
-      { value: 'hk', name: 'Hong Kong 🇭🇰' },
-      { value: 'hu', name: 'Hungary 🇭🇺' },
-      { value: 'ie', name: 'Ireland 🇮🇪' },
-      { value: 'it', name: 'Italy 🇮🇹' },
-      { value: 'jp', name: 'Japan 🇯🇵' },
-      { value: 'nl', name: 'Netherlands 🇳🇱' },
-      { value: 'nz', name: 'New Zealand 🇳🇿' },
-      { value: 'no', name: 'Norway 🇳🇴' },
-      { value: 'pl', name: 'Poland 🇵🇱' },
-      { value: 'pt', name: 'Portugal 🇵🇹' },
-      { value: 'ro', name: 'Romania 🇷🇴' },
-      { value: 'rs', name: 'Serbia 🇷🇸' },
-      { value: 'sg', name: 'Singapore 🇸🇬' },
-      { value: 'sk', name: 'Slovakia 🇸🇰' },
-      { value: 'za', name: 'South Africa 🇿🇦' },
-      { value: 'es', name: 'Spain 🇪🇸' },
-      { value: 'se', name: 'Sweden 🇸🇪' },
-      { value: 'ch', name: 'Switzerland 🇨🇭' },
-      { value: 'gb', name: 'United Kingdom 🇬🇧' },
-      { value: 'ua', name: 'Ukraine 🇺🇦' },
-      { value: 'us', name: 'USA 🇺🇸' }
-    ].freeze
+
+    CONNECTIONS = FILES.map { |f| f.split('/').last }.uniq.map do |file|
+      country = ISO3166::Country.find_country_by_alpha2(file[0..1].upcase)
+      name = "#{country.common_name} #{country.emoji_flag}"
+      { value: file, name: name }
+    end.sort_by { |c| c[:name] }
 
     class << self
       # Select a random VPN connection
@@ -53,19 +20,15 @@ module Mullvad
 
       # Choose by country
       def country
-        country = TTY::Prompt.new.select('Select country', COUNTRIES, cycle: true, per_page: 20, filter: true)
+        countries = CONNECTIONS.map { |c| { value: c[:value][0..1], name: c[:name] } }.uniq
+        country = TTY::Prompt.new.select('Select country', countries, cycle: true, per_page: 30, filter: true)
         FILES.select { |a| a.split('/').last.start_with?(country) }.sample
       end
 
       # Select a specific connection
       def specific
-        countries = FILES.map do |c|
-          {
-            name: c.split('/').last,
-            value: c
-          }
-        end
-        TTY::Prompt.new.select('Select configuration file', countries, cycle: true, per_page: 20)
+        connections = CONNECTIONS.map { |c| { name: "#{c[:value]} #{c[:name]}", value: c[:value] } }
+        TTY::Prompt.new.select('Select configuration file', connections, cycle: true, per_page: 30, filter: true)
       end
 
       # Check status
@@ -74,7 +37,7 @@ module Mullvad
         regexp = /\(server ([a-z]{2})[a-z\-0-9]+\)/
         # Add country name to the server if we are connected
         if (match = status.match(regexp))
-          country = COUNTRIES.find { |c| c[:value] == match[1] }[:name]
+          country = CONNECTIONS.find { |c| c[:value][0..1] == match[1] }[:name]
           status = status.gsub(regexp, "in #{country} \\0")
         end
         status
