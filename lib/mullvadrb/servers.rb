@@ -1,4 +1,4 @@
-module Mullvad
+module Mullvadrb
   module Servers
     SERVERS = 'servers.dump'.freeze
 

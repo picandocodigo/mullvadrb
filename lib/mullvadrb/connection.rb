@@ -1,4 +1,4 @@
-module Mullvad
+module Mullvadrb
   #
   # Manage Mullvad connect, disconnect and status
   #

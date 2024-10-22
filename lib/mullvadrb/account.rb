@@ -1,4 +1,4 @@
-module Mullvad
+module Mullvadrb
   module Account
     class << self
       def login(account)

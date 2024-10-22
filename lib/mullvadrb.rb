@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require 'tty-prompt'
-require_relative 'account'
-require_relative 'connection'
-require_relative 'servers'
+require 'mullvadrb/account'
+require 'mullvadrb/connection'
+require 'mullvadrb/servers'
 
 def main_menu
   TTY::Prompt.new.select('Select', cycle: true, per_page: 10) do |menu|
@@ -20,35 +20,35 @@ def main_menu
   end
 end
 
-puts Mullvad::Connection.status
+puts Mullvadrb::Connection.status
 
 loop do
   selection = main_menu
   puts "\e[H\e[2J"
   case selection
   when 'status'
-    puts Mullvad::Connection.status
+    puts Mullvadrb::Connection.status
   when 'disconnect'
-    Mullvad::Connection.disconnect
+    Mullvadrb::Connection.disconnect
   when 'country'
-    Mullvad::Servers.select_country
-    Mullvad::Connection.connect
+    Mullvadrb::Servers.select_country
+    Mullvadrb::Connection.connect
   when 'specific'
-    Mullvad::Servers.select_specific
-    Mullvad::Connection.connect
+    Mullvadrb::Servers.select_specific
+    Mullvadrb::Connection.connect
   when 'random'
-    Mullvad::Servers.random
-    Mullvad::Connection.connect
+    Mullvadrb::Servers.random
+    Mullvadrb::Connection.connect
   when 'update_servers'
-    Mullvad::Servers.update
+    Mullvadrb::Servers.update
   when 'account_login'
-    Mullvad::Account.login(
+    Mullvadrb::Account.login(
       TTY::Prompt.new.ask('Please enter your account number:')
     )
   when 'account_info'
-    Mullvad::Account.info
+    Mullvadrb::Account.info
   when 'account_devices'
-    Mullvad::Account.devices
+    Mullvadrb::Account.devices
   when 'exit'
     abort('Tioraidh!')
   end
