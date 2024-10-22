@@ -1,27 +1,32 @@
 module Mullvad
   #
-  # Initialize a Connection class to manage which file to use and connect, disconnect, check
-  # connection status, etc.
+  # Manage Mullvad connect, disconnect and status
   #
-  class Connection
-    attr_accessor :file
+  module Connection
+    class << self
+      def connect
+        puts `mullvad connect`
+        if $?.success?
+          puts '☎ Connecting...'
+        else
+          puts 'Error connecting'
+        end
+      end
 
-    def initialize(file)
-      @file = file
-    end
+      def disconnect
+        puts `mullvad disconnect`
+        if $?.success?
+          puts '🔌 Pulling the plug'
+        else
+          puts 'Error disconnecting'
+          puts 'Maybe the connection wasn\'t active? 🤨'
+        end
+        sleep 2
+        status
+      end
 
-    def connect
-      puts "Attempting to connect to #{@file}"
-      system("wg-quick up #{@file}")
-    end
-
-    def disconnect
-      if system("wg-quick down #{@file}")
-        puts '🔌 Successfully pulled the plug'
-        @connected = false
-      else
-        puts 'Error disconnecting'
-        puts 'Maybe the connection wasn\'t active? 🤨'
+      def status
+        puts `mullvad status -v`
       end
     end
   end
