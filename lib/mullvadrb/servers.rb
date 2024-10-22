@@ -1,6 +1,6 @@
 module Mullvadrb
   module Servers
-    SERVERS = 'servers.dump'.freeze
+    SERVERS_FILE = File.expand_path('~/.local/share/mullvadrb.dump').freeze
 
     class << self
       def update
@@ -87,11 +87,16 @@ module Mullvadrb
       end
 
       def load_servers
-        Marshal.load(File.read(SERVERS))
+        servers = File.expand_path(SERVERS_FILE)
+        if File.file?(servers)
+          Marshal.load(File.read(servers))
+        else
+          update
+        end
       end
 
       def save_servers(servers)
-        File.open(SERVERS, 'wb') do |f|
+        File.open(SERVERS_FILE, 'w+') do |f|
           f.write(Marshal.dump(servers))
         end
       end
