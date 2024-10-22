@@ -5,6 +5,9 @@ require 'mullvadrb/account'
 require 'mullvadrb/connection'
 require 'mullvadrb/servers'
 
+include Mullvadrb::Servers
+@servers = load_servers
+
 def main_menu
   TTY::Prompt.new.select('Select', cycle: true, per_page: 10) do |menu|
     menu.choice name: '📡 Status', value: 'status'
@@ -31,16 +34,16 @@ loop do
   when 'disconnect'
     Mullvadrb::Connection.disconnect
   when 'country'
-    Mullvadrb::Servers.select_country
+    select_country
     Mullvadrb::Connection.connect
   when 'specific'
     Mullvadrb::Servers.select_specific
     Mullvadrb::Connection.connect
   when 'random'
-    Mullvadrb::Servers.random
+    random
     Mullvadrb::Connection.connect
   when 'update_servers'
-    Mullvadrb::Servers.update
+    update
   when 'account_login'
     Mullvadrb::Account.login(
       TTY::Prompt.new.ask('Please enter your account number:')
