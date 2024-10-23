@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 
-gem 'tty-prompt'
+gemspec
+
+gem 'ostruct'
 
 group :test, :development do
   gem 'debug'

@@ -11,4 +11,6 @@ Gem::Specification.new do |s|
   s.license       = 'GPL-3.0-or-later'
   s.required_ruby_version = '>= 3.0'
   s.executables << 'mullvadrb'
+  s.add_dependency 'countries'
+  s.add_dependency 'tty-prompt'
 end
