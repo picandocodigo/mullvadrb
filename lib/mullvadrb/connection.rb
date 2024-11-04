@@ -26,7 +26,26 @@ module Mullvadrb
       end
 
       def status
-        puts `mullvad status -v`
+        status = `mullvad status -v`
+        if status.start_with?('Disconnected')
+          status.gsub!('Disconnected', "\n⚠ 🚨  DISCONNECTED  🚨 c⚠")
+                .gsub!(/$/, "\n")
+        elsif status.start_with?('Connected')
+          status = status.split("\n")
+                         .sort
+                         .reject { |a| a == 'Connected' }
+                         .prepend("📡 Connected ✅ \n")
+                         .push("\n")
+                         .join("\n")
+        elsif status.start_with?('Connecting')
+          status = status.split("\n")
+                         .sort
+                         .reject { |a| a == 'Connecting' }
+                         .prepend("📞 Connecting ☎ \n")
+                         .push("\n")
+                         .join("\n")
+        end
+        status
       end
     end
   end
