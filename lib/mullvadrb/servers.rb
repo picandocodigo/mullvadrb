@@ -6,7 +6,7 @@ module Mullvadrb
       def update
         `mullvad relay update`
         data = `mullvad relay list`
-        country, city, info, flag, value = nil
+        country, city, info, flag = nil
 
         # Each line is either a country, a city or a server
         servers = data.split("\n").compact.reject(&:empty?).map do |s|
@@ -86,8 +86,8 @@ module Mullvadrb
 
       def emoji_from_code(code)
         code.upcase
-          .codepoints
-          .map { |c| (c + 127397).chr('utf-8') }.join
+            .codepoints
+            .map { |c| (c + 127_397).chr('utf-8') }.join
       end
 
       def load_servers
