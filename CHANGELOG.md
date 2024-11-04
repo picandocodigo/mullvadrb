@@ -1,3 +1,7 @@
+# 0.0.3
+
+Minor cleanup in the code and updates the way status is displayed.
+
 # 0.0.2
 
 I added back the support for WireGuard, in cases you don't want to or can't install the `mullvad` cli app, which was the initial reason I built this. The first time you run the app, it's going to ask you which one you want to use, and save your preference in `~/.local/share/mullvadrb/backend.conf`. You can switch backends from the Main Menu on the app at any time.
