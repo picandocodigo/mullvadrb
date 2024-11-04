@@ -13,7 +13,7 @@ Most of the basic functionality is available for either backend: Select a server
 You need to have a [Mullvad VPN](https://mullvad.net) account to use the app.
 
 > [!WARNING]
-> `mullvad` uses WireGuard, so if you change backends while connected to an OpenVPN server with `wg`, `mullvad` won't be able to disconnect from the OpenVPN.
+> `mullvad` uses WireGuard, so if you change backends while connected to an OpenVPN server with `wg`, `mullvad` won't be able to disconnect from the OpenVPN connection.
 > In general, it's a good idea to stick to one backend, and disconnect from the VPN before switching backends.
 > This might potentially be fixed in the future.
 
