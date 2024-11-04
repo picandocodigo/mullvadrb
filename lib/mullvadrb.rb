@@ -96,8 +96,7 @@ module Mullvadrb
           Mullvadrb::Account.devices
         end
       rescue SystemExit, Interrupt
-        puts
-        exit
+        abort("\n\nTioraidh!\n")
       end
     end
   end
