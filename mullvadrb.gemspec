@@ -13,4 +13,5 @@ Gem::Specification.new do |s|
   s.executables << 'mullvadrb'
   s.add_dependency 'countries'
   s.add_dependency 'tty-prompt'
+  s.add_dependency 'i18n', '~> 1'
 end

@@ -28,13 +28,13 @@ module Mullvadrb
         end.compact
 
         save_servers(servers)
-        puts '🗃 Server list updated'
+        puts I18n.t(:servers_updated)
         puts
       end
 
       def select_country
         servers = @servers
-        country = TTY::Prompt.new.select('Select country', countries(servers), cycle: true, per_page: 10, filter: true, symbols: { marker: '🛫' })
+        country = TTY::Prompt.new.select(I18n.t(:select_country), countries(servers), cycle: true, per_page: 10, filter: true, symbols: { marker: '🛫' })
         connection = servers.select do |s|
           s[:country] == country
         end.sample
@@ -43,14 +43,14 @@ module Mullvadrb
 
       def random
         server = all_connections.sample
-        puts "Connecting to #{server[:name]}"
+        puts I18n.t(:connecting_to, server: server[:name])
         puts `mullvad relay set location #{server[:value]}`
       end
 
       def select_specific
         connections = all_connections
         server = TTY::Prompt.new.select(
-          'Select server',
+          I18n.t(:select_server),
           connections,
           cycle: true,
           per_page: 10,

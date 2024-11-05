@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'i18n'
 require 'tty-prompt'
 require 'mullvadrb/account'
 require 'mullvadrb/command_manager'
@@ -7,6 +8,8 @@ require 'mullvadrb/connection'
 require 'mullvadrb/servers'
 
 module Mullvadrb
+  I18n.load_path += Dir["#{File.expand_path('../config/locales', __dir__)}/*.yml"]
+
   class Main
     include Mullvadrb::CommandManager
     CONFIG_FILE = File.expand_path('~/.local/share/mullvadrb/backend.conf').freeze
@@ -15,20 +18,28 @@ module Mullvadrb
       # To determine if we're using WireGuard or mullvad cli, attempt to load a pre-saved
       # configuration or prompt the user which one to use:
       backend = load_config || ask_backend_and_save
-      puts "Using #{backend} backend"
+      puts I18n.t(:backend_using, backend: backend)
       puts Mullvadrb::Connection.status
     end
 
     def ask_backend_and_save
-      backend = TTY::Prompt.new.select('Which cli backend would you like to use?', cycle: true) do |menu|
-        menu.choice name: 'WireGuard - wg (needs sudo powers)', value: 'wg'
-        menu.choice name: 'Mullvad - mullvad', value: 'mullvad'
+      backend = TTY::Prompt.new.select(I18n.t(:backend_which), cycle: true) do |menu|
+        menu.choice name: I18n.t(:backend_wg), value: 'wg'
+        menu.choice name: I18n.t(:backend_mullvad), value: 'mullvad'
       end
       @wg = (backend == 'wg')
       require 'mullvadrb/wg_manager' if @wg
       dir = File.expand_path('~/.local/share/mullvadrb/')
       system 'mkdir', '-p', dir unless File.exist?(dir)
       File.open(CONFIG_FILE, 'w+') { |f| f.write(backend) }
+    end
+
+    def languages
+      language = TTY::Prompt.new.select(I18n.t(:language_which), cycle: true) do |menu|
+        menu.choice name: I18n.t(:language_en), value: 'en'
+        menu.choice name: I18n.t(:language_es), value: 'es'
+      end
+      I18n.locale = language.to_sym
     end
 
     def load_config
@@ -48,27 +59,28 @@ module Mullvadrb
     def main_menu
       choices = common_menu_choices
       choices.merge!(mullvad_cli_choices) unless @wg
-      choices.merge!({ '❌ Exit' => 'exit' })
-      TTY::Prompt.new.select('Main Menu', choices, cycle: true, per_page: 12)
+      choices.merge!({ "❌ #{I18n.t(:exit)}" => 'exit' })
+      TTY::Prompt.new.select(I18n.t(:main_menu), choices, cycle: true, per_page: 12)
     end
 
     def common_menu_choices
       {
-        '📡 Status' => 'status',
-        '🎰 Random' => 'random',
-        "#{['🌏', '🌎', '🌍'].sample} Choose country" => 'country',
-        '🗺 Choose specific' => 'specific',
-        '🔌 Disconnect' => 'disconnect',
-        '⚙ Change backend' => 'backend'
+        "📡 #{I18n.t(:status)}" => 'status',
+        "🎰 #{I18n.t(:random)}" => 'random',
+        "#{['🌏', '🌎', '🌍'].sample} #{I18n.t(:choose_country)}" => 'country',
+        "🗺 #{I18n.t(:choose_specific)}" => 'specific',
+        "🔌 #{I18n.t(:disconnect)}" => 'disconnect',
+        "⚙ #{I18n.t(:change_backend)}" => 'backend',
+        "🗣 #{I18n.t(:languages)}" => 'languages'
       }
     end
 
     def mullvad_cli_choices
       {
-        '🗃 Update Servers' => 'update_servers',
-        '🔑 Log in' => 'account_login',
-        '📁 Account info' => 'account_info',
-        '🖥 Devices' => 'account_devices'
+        "🗃 #{I18n.t(:update_servers)}" => 'update_servers',
+        "🔑 #{I18n.t(:login)}" => 'account_login',
+        "📁 #{I18n.t(:account_info)}" => 'account_info',
+        "🖥 #{I18n.t(:devices)}" => 'account_devices'
       }
     end
 
@@ -88,12 +100,14 @@ module Mullvadrb
           Mullvadrb::Servers.update
         when 'account_login'
           Mullvadrb::Account.login(
-            TTY::Prompt.new.ask('Please enter your account number:')
+            TTY::Prompt.new.ask(I18n.t(:please_enter_acct))
           )
         when 'account_info'
           Mullvadrb::Account.info
         when 'account_devices'
           Mullvadrb::Account.devices
+        when 'languages'
+          languages
         end
       rescue SystemExit, Interrupt
         abort("\n\nTioraidh!\n")
