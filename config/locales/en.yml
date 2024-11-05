@@ -1,0 +1,33 @@
+en:
+  account_info: "Account info"
+  backend_mullvad: 'Mullvad - mullvad'
+  backend_using: "Using %{backend} backend"
+  backend_wg: 'WireGuard - wg (needs sudo powers)'
+  backend_which: 'Which cli backend would you like to use?'
+  change_backend: "Change backend"
+  choose_country: "Choose country"
+  choose_specific: "Choose specific"
+  connected: "📡 Connected ✅ \n"
+  connecting: "📞 Connecting ☎ \n"
+  connecting_to: "Connecting to %{server}"
+  devices: "Devices"
+  disconnect: "Disconnect"
+  disconnected: "\n⚠ 🚨  DISCONNECTED  🚨⚠"
+  error_connecting: "Error connecting"
+  error_disconnecting: "Error disconnecting"
+  exit: "Exit"
+  login: "Log in"
+  main_menu: "Main Menu"
+  maybe_connection_inactive: "Maybe the connection wasn't active? 🤨"
+  please_enter_acct: "Please enter your account number:"
+  pulling_the_plug: "🔌 Pulling the plug"
+  random: "Random"
+  select_country: "Select country"
+  select_server: "Select server"
+  servers_updated: '🗃 Server list updated'
+  status: "Status"
+  update_servers: "Update Servers"
+  languages: "Languages"
+  language_which: "Which language would you like to use?"
+  language_en: "English"
+  language_es: "Spanish"

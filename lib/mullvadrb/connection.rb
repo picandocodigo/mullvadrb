@@ -7,19 +7,19 @@ module Mullvadrb
       def connect
         puts `mullvad connect`
         if $?.success?
-          puts '☎ Connecting...'
+          puts I18n.t(:connecting)
         else
-          puts 'Error connecting'
+          puts I18n.t(:error_connecting)
         end
       end
 
       def disconnect
         puts `mullvad disconnect`
         if $?.success?
-          puts '🔌 Pulling the plug'
+          puts I18n.t(:pulling_the_plug)
         else
-          puts 'Error disconnecting'
-          puts 'Maybe the connection wasn\'t active? 🤨'
+          puts I18n.t(:error_disconnecting)
+          puts I18n.t(:maybe_connection_inactive)
         end
         sleep 2
         status
@@ -28,20 +28,20 @@ module Mullvadrb
       def status
         status = `mullvad status -v`
         if status.start_with?('Disconnected')
-          status.gsub!('Disconnected', "\n⚠ 🚨  DISCONNECTED  🚨 c⚠")
+          status.gsub!('Disconnected', I18n.t(:disconnected))
                 .gsub!(/$/, "\n")
         elsif status.start_with?('Connected')
           status = status.split("\n")
                          .sort
                          .reject { |a| a == 'Connected' }
-                         .prepend("📡 Connected ✅ \n")
+                         .prepend(I18n.t(:connected))
                          .push("\n")
                          .join("\n")
         elsif status.start_with?('Connecting')
           status = status.split("\n")
                          .sort
                          .reject { |a| a == 'Connecting' }
-                         .prepend("📞 Connecting ☎ \n")
+                         .prepend(I18n.t(:connecting))
                          .push("\n")
                          .join("\n")
         end
