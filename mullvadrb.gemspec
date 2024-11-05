@@ -12,6 +12,12 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 3.0'
   s.executables << 'mullvadrb'
   s.add_dependency 'countries'
-  s.add_dependency 'tty-prompt'
   s.add_dependency 'i18n', '~> 1'
+  s.add_dependency 'tty-prompt'
+  s.metadata = {
+    'bug_tracker_uri' => 'https://github.com/picandocodigo/mullvadrb/issues',
+    'changelog_uri' => 'https://github.com/picandocodigo/mullvadrb/blob/master/CHANGELOG.md',
+    'homepage_uri' => 'https://github.com/picandocodigo/mullvadrb',
+    'source_code_uri' => 'https://github.com/picandocodigo/mullvadrb'
+  }
 end
