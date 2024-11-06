@@ -6,32 +6,35 @@ require 'mullvadrb/account'
 require 'mullvadrb/command_manager'
 require 'mullvadrb/connection'
 require 'mullvadrb/servers'
+require 'yaml'
 
 module Mullvadrb
   I18n.load_path += Dir["#{File.expand_path('../config/locales', __dir__)}/*.yml"]
 
+  # Main object instantiated, saves backend, i18n if set, and persists.
   class Main
     include Mullvadrb::CommandManager
-    CONFIG_FILE = File.expand_path('~/.local/share/mullvadrb/backend.conf').freeze
+    CONFIG_FILE = File.expand_path('~/.local/share/mullvadrb/mullvadrb.yml').freeze
 
     def initialize
       # To determine if we're using WireGuard or mullvad cli, attempt to load a pre-saved
       # configuration or prompt the user which one to use:
-      backend = load_config || ask_backend_and_save
-      puts I18n.t(:backend_using, backend: backend)
+      load_config
+      @backend ||= ask_backend
+      puts I18n.t(:backend_using, backend: @backend)
+      I18n.locale = @locale || I18n.default_locale
+      save_config!
       puts Mullvadrb::Connection.status
     end
 
-    def ask_backend_and_save
+    def ask_backend
       backend = TTY::Prompt.new.select(I18n.t(:backend_which), cycle: true) do |menu|
         menu.choice name: I18n.t(:backend_wg), value: 'wg'
         menu.choice name: I18n.t(:backend_mullvad), value: 'mullvad'
       end
       @wg = (backend == 'wg')
       require 'mullvadrb/wg_manager' if @wg
-      dir = File.expand_path('~/.local/share/mullvadrb/')
-      system 'mkdir', '-p', dir unless File.exist?(dir)
-      File.open(CONFIG_FILE, 'w+') { |f| f.write(backend) }
+      backend
     end
 
     def languages
@@ -39,17 +42,32 @@ module Mullvadrb
         menu.choice name: I18n.t(:language_en), value: 'en'
         menu.choice name: I18n.t(:language_es), value: 'es'
       end
-      I18n.locale = language.to_sym
+      @locale = language.to_sym
+      I18n.locale = @locale
+      save_config!
     end
 
     def load_config
       return unless File.exist?(CONFIG_FILE)
 
-      backend = File.read(CONFIG_FILE)
-      @wg = (backend == 'wg')
+      config_file = YAML.load(File.read(CONFIG_FILE))
+      @backend = config_file[:backend]
+      @locale = config_file[:locale]
+      @wg = (@backend == 'wg')
       load_servers unless @wg
       require 'mullvadrb/wg_manager' if @wg
-      backend
+    end
+
+    def save_config!
+      dir = File.expand_path('~/.local/share/mullvadrb/')
+      system 'mkdir', '-p', dir unless File.exist?(dir)
+      config = {
+        backend: @backend,
+        locale: @locale || I18n.locale
+      }
+      File.open(CONFIG_FILE, 'w+') do |f|
+        f.write(config.to_yaml)
+      end
     end
 
     def load_servers
@@ -94,7 +112,7 @@ module Mullvadrb
         when 'exit'
           abort('Tioraidh!')
         when 'backend'
-          ask_backend_and_save
+          ask_backend
         # Only when using mullvad cli and not wg:
         when 'update_servers'
           Mullvadrb::Servers.update
