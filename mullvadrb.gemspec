@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name          = 'mullvadrb'
-  s.version       = '0.0.3'
+  s.version       = '0.0.4'
   s.summary       = 'A TUI to use with Mullvad VPN'
   s.description   = 'A Terminal User Interface to use with Mullvad VPN'
   s.authors       = ['Fernando Briano']
@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split($/)
   s.require_paths = ['lib']
   s.homepage      = 'https://github.com/picandocodigo/mullvad-ruby'
-  s.license       = 'GPL-3.0-or-later'
+  s.license       = 'GPL-3.0'
   s.required_ruby_version = '>= 3.0'
   s.executables << 'mullvadrb'
   s.add_dependency 'countries'
