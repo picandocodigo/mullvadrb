@@ -6,7 +6,7 @@ This is a Terminal App I wrote for myself to use with Mullvad VPN on Linux. It m
 
 The app has two "backends", [Mullvad CLI](https://mullvad.net/en/help/how-use-mullvad-cli) or [WireGuard](https://mullvad.net/en/help/wireguard-and-mullvad-vpn).
 
-Most of the basic functionality is available for either backend: Select a server (random, by country, specific server), connect, disconnect and show the current status. You can use either backend. The first time you run the app, it's going to ask you which one you want to use, and save your preference in `~/.local/share/mullvadrb/backend.conf`. You can switch backends from the Main Menu on the app at any time.
+Most of the basic functionality is available for either backend: Select a server (random, by country, specific server), connect, disconnect and show the current status. You can use either backend. The first time you run the app, it's going to ask you which one you want to use, and save your preference in `~/.local/share/mullvadrb/mullvardrb.yml`. You can switch backends from the Main Menu on the app at any time.
 
 ## Requirements
 
@@ -33,7 +33,7 @@ It uses `sudo` to read the files on `/etc/wireguard` and execute `wg-quick` for 
 
 You need to install [the Mullvad CLI](https://mullvad.net/en/download/vpn/linux) to use this backend.
 
-On first run, you need to log in (unless you've already run `mullvad account login` on your terminal before). The servers list will be updated and will be saved to `~/.local/share/mullvadrb.dump`.
+On first run, you need to log in (unless you've already run `mullvad account login` on your terminal before). The servers list will be updated and will be saved to `~/.local/share/mullvadrb.dump`. You can update the server list at any time from the main menu.
 
 ## Development
 
