@@ -106,11 +106,11 @@ module Mullvadrb
       loop do
         selection = main_menu
         puts "\e[H\e[2J"
+        exit if selection == 'exit'
+
         case selection
         when 'status', 'disconnect', 'country', 'specific', 'random'
           send(selection)
-        when 'exit'
-          abort('Tioraidh!')
         when 'backend'
           ask_backend
         # Only when using mullvad cli and not wg:
