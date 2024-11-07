@@ -1,3 +1,7 @@
+# 0.0.4
+
+Adds support for internationalization, translations can be added easily now. ¡Disponible en Español! The configuration file `backend.conf` has been replaced by `mullvadrb.yml` which will store the backend and locale preferences.
+
 # 0.0.3
 
 Minor cleanup in the code and updates the way status is displayed.
