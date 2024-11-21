@@ -1,3 +1,8 @@
+# 0.0.5
+
+- Updates display for menu, adds separation between main functionality and settings.
+- Sets the process name to 'mullvadrb'
+
 # 0.0.4
 
 Adds support for internationalization, translations can be added easily now. ¡Disponible en Español! The configuration file `backend.conf` has been replaced by `mullvadrb.yml` which will store the backend and locale preferences.
