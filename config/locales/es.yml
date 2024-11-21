@@ -11,7 +11,7 @@ es:
   connecting: "📞 Conectando ☎ \n"
   connecting_to: "Conectándose a %{server}"
   devices: "Dispositivos"
-  disconnect: "Desconectar"
+  disconnect: "Desconectar\n"
   disconnected: "\n⚠ 🚨  DESCONECTADO  🚨⚠"
   error_connecting: "Error conectando"
   error_disconnecting: "Error desconectando "
