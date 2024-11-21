@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+Process.setproctitle('mullvadrb')
 
 require 'i18n'
 require 'tty-prompt'
