@@ -1,3 +1,8 @@
+# 0.0.6
+
+- Adds DNS Blockers functionality.
+- Refactors settings into `Mullvadrb::Settings` module.
+
 # 0.0.5
 
 - Updates display for menu, adds separation between main functionality and settings.
