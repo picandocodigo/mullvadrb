@@ -1,3 +1,7 @@
+# 0.0.7
+
+- Fixes settings configuration, updates Settings code.
+
 # 0.0.6
 
 - Adds DNS Blockers functionality.
