@@ -6,6 +6,7 @@ require 'tty-prompt'
 require 'mullvadrb/account'
 require 'mullvadrb/command_manager'
 require 'mullvadrb/connection'
+require 'mullvadrb/dns'
 require 'mullvadrb/servers'
 require 'mullvadrb/settings'
 require 'yaml'
@@ -43,7 +44,8 @@ module Mullvadrb
         "🗺 #{I18n.t(:choose_specific)}" => 'specific',
         "🔌 #{I18n.t(:disconnect)}" => 'disconnect',
         "⚙ #{I18n.t(:change_backend)}" => 'backend',
-        "🗣 #{I18n.t(:languages)}" => 'languages'
+        "🗣 #{I18n.t(:languages)}" => 'languages',
+        "📟 #{I18n.t(:dns_blockers)}" => 'dns_blockers'
       }
     end
 
@@ -80,6 +82,8 @@ module Mullvadrb
           Mullvadrb::Account.devices
         when 'languages'
           Mullvadrb::Settings.languages
+        when 'dns_blockers'
+          Mullvadrb::DNS.blockers
         end
       rescue SystemExit, Interrupt
         abort("\n\nTioraidh!\n")
