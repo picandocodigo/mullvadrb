@@ -31,3 +31,5 @@ es:
   language_which: "¿Qué idioma quieres usar?"
   language_en: "Inglés"
   language_es: "Español"
+  dns_blockers: "Bloqueadores DNS"
+  dns_blockers_menu: "Bloqueadores DNS - Presiona Enter↲ para confirmar:"
