@@ -17,15 +17,16 @@ module Mullvadrb
   # Main object instantiated, saves backend, i18n if set, and persists.
   class Main
     include Mullvadrb::CommandManager
+    include Mullvadrb::Settings
 
     def initialize
       # To determine if we're using WireGuard or mullvad cli, attempt to load a pre-saved
       # configuration or prompt the user which one to use:
-      Mullvadrb::Settings.load_config
+      load_config
       @backend ||= Mullvadrb::Settings.ask_backend
       puts I18n.t(:backend_using, backend: @backend)
       I18n.locale = @locale || I18n.default_locale
-      Mullvadrb::Settings.save_config!
+      save_config!
       puts Mullvadrb::Connection.status
     end
 
@@ -68,7 +69,7 @@ module Mullvadrb
         when 'status', 'disconnect', 'country', 'specific', 'random'
           send(selection)
         when 'backend'
-          Mullvadrb::Settings.ask_backend
+          ask_backend
         # Only when using mullvad cli and not wg:
         when 'update_servers'
           Mullvadrb::Servers.update
@@ -81,7 +82,7 @@ module Mullvadrb
         when 'account_devices'
           Mullvadrb::Account.devices
         when 'languages'
-          Mullvadrb::Settings.languages
+          languages
         when 'dns_blockers'
           Mullvadrb::DNS.blockers
         end
