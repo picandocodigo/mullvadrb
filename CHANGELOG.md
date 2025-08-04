@@ -1,3 +1,8 @@
+# 0.0.8
+
+- Better status format and message for blocked connection.
+- Adds allowing LAN access through mullvad-cli.
+
 # 0.0.7
 
 - Fixes settings configuration, updates Settings code.
