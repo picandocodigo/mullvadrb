@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name          = 'mullvadrb'
-  s.version       = '0.0.7'
+  s.version       = '0.0.8'
   s.summary       = 'A TUI to use with Mullvad VPN'
   s.description   = 'A Terminal User Interface to use with Mullvad VPN'
   s.authors       = ['Fernando Briano']
