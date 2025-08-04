@@ -19,9 +19,9 @@ module Mullvadrb
           else
             regexp = /\(([a-z]{2})\)/ # Country (xx) - Country name + code and group code
             flag = s.match(regexp)[1]
-                     .upcase
-                     .codepoints
-                     .map { |c| (c + 127397).chr('utf-8') }.join
+                    .upcase
+                    .codepoints
+                    .map { |c| (c + 127_397).chr('utf-8') }.join
             country = s.gsub(regexp, '').strip
             next
           end
