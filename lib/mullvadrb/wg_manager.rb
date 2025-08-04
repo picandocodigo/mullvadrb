@@ -30,7 +30,13 @@ module Mullvadrb
       def specific
         connections = CONNECTIONS.map { |c| { name: "#{c[:value]} #{c[:name]}", value: c[:value] } }
         connect(
-          TTY::Prompt.new.select('Select configuration file', connections, cycle: true, per_page: 30, filter: true)
+          TTY::Prompt.new.select(
+            'Select configuration file',
+            connections,
+            cycle: true,
+            per_page: 30,
+            filter: true
+          )
         )
       end
 
