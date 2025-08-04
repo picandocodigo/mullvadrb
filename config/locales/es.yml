@@ -33,3 +33,4 @@ es:
   language_es: "Español"
   dns_blockers: "Bloqueadores DNS"
   dns_blockers_menu: "Bloqueadores DNS - Presiona Enter↲ para confirmar:"
+  lan: "Habilitar acceso LAN"

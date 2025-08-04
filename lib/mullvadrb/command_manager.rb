@@ -50,5 +50,10 @@ module Mullvadrb
         Mullvadrb::Connection.connect
       end
     end
+
+    def lan
+      puts `mullvad lan set allow`
+      puts
+    end
   end
 end

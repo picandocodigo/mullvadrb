@@ -46,7 +46,8 @@ module Mullvadrb
         "🔌 #{I18n.t(:disconnect)}" => 'disconnect',
         "⚙ #{I18n.t(:change_backend)}" => 'backend',
         "🗣 #{I18n.t(:languages)}" => 'languages',
-        "📟 #{I18n.t(:dns_blockers)}" => 'dns_blockers'
+        "📟 #{I18n.t(:dns_blockers)}" => 'dns_blockers',
+        "📞 #{I18n.t(:lan)}" => 'lan'
       }
     end
 
@@ -66,7 +67,7 @@ module Mullvadrb
         exit if selection == 'exit'
 
         case selection
-        when 'status', 'disconnect', 'country', 'specific', 'random'
+        when 'status', 'disconnect', 'country', 'specific', 'random', 'lan'
           send(selection)
         when 'backend'
           ask_backend
