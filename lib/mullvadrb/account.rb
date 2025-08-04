@@ -11,6 +11,7 @@ module Mullvadrb
 
       def devices
         puts `mullvad account list-devices`
+        puts
       end
     end
   end
