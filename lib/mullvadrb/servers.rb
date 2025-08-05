@@ -8,21 +8,23 @@ module Mullvadrb
         data = `mullvad relay list`
         country, city, info, flag = nil
 
+        # Remove empty lines, and OpenVPN lines
+        server_data = data.split("\n").compact.reject(&:empty?)
         # Each line is either a country, a city or a server
-        servers = data.split("\n").compact.reject(&:empty?).map do |s|
-          if s.start_with?("\t\t")
-            info = s.gsub("\t\t", '')
+        servers = server_data.reject { |a| a.include?('ovpn') }.map do |line|
+          if line.start_with?("\t\t")
+            info = line.gsub("\t\t", '')
             { country: country, city: city, info: info, flag: flag, value: info.split(' ').first }
-          elsif s.start_with?("\t")
-            city = s.gsub("\t", '').split("(").first.strip
+          elsif line.start_with?("\t")
+            city = line.gsub("\t", '').split('(').first.strip
             next
           else
             regexp = /\(([a-z]{2})\)/ # Country (xx) - Country name + code and group code
-            flag = s.match(regexp)[1]
+            flag = line.match(regexp)[1]
                     .upcase
                     .codepoints
                     .map { |c| (c + 127_397).chr('utf-8') }.join
-            country = s.gsub(regexp, '').strip
+            country = line.gsub(regexp, '').strip
             next
           end
         end.compact
