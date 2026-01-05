@@ -36,7 +36,14 @@ module Mullvadrb
 
       def select_country
         servers = @servers
-        country = TTY::Prompt.new.select(I18n.t(:select_country), countries(servers), cycle: true, per_page: 10, filter: true, symbols: { marker: '🛫' })
+        country = TTY::Prompt.new.select(
+          I18n.t(:select_country),
+          countries(servers),
+          cycle: true,
+          per_page: 10,
+          filter: true,
+          symbols: { marker: '🛫' }
+        )
         connection = servers.select do |s|
           s[:country] == country
         end.sample
