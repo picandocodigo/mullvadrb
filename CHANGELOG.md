@@ -1,3 +1,8 @@
+# 0.0.9
+
+- Refactors server update, removes OpenVPN options. OpenVPN support is being removed on January 15th, 2026: https://mullvad.net/en/blog/final-reminder-for-openvpn-removal
+- Refactors country code, fixes an issue with space in names.
+
 # 0.0.8
 
 - Better status format and message for blocked connection.

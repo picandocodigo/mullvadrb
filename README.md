@@ -8,6 +8,8 @@ The app has two "backends", [Mullvad CLI](https://mullvad.net/en/help/how-use-mu
 
 Most of the basic functionality is available for either backend: Select a server (random, by country, specific server), connect, disconnect and show the current status. You can use either backend. The first time you run the app, it's going to ask you which one you want to use, and save your preference in `~/.local/share/mullvadrb/mullvardrb.yml`. You can switch backends from the Main Menu on the app at any time.
 
+Also on [Codeberg](https://codeberg.org/picandocodigo/mullvadrb)
+
 ## Requirements
 
 You need to have a [Mullvad VPN](https://mullvad.net) account to use the app.
