@@ -34,7 +34,9 @@ module Mullvadrb
                 .gsub!(/$/, "\n")
         elsif status.start_with?('Connected')
           status = status.split("\n").reject { |a| a == 'Connected' }
-          country_name = status.find { |a| a.match?('Visible location') }.split("\s")[2].gsub(',','')
+          country_name = status.find { |a| a.match?('Visible location') }
+                               .gsub(/\s+Visible\ location:\s+/, '')
+                               .split(',')[0]
           country = ISO3166::Country.find_country_by_any_name(country_name)
           status = status.prepend("#{I18n.t(:connected)} to #{country.emoji_flag} #{country.common_name}\n")
                          .push("\n")
