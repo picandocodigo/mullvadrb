@@ -7,7 +7,7 @@ es:
   change_backend: "Cambiar backend"
   choose_country: "Elegir país"
   choose_specific: "Elegir específico"
-  connected: "📡 ✅ Conectado"
+  connected_to: "📡 ✅ Conectado a"
   connecting: "📞 Conectando ☎ \n"
   connecting_to: "Conectándose a %{server}"
   devices: "Dispositivos"

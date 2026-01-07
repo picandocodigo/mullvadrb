@@ -38,7 +38,7 @@ module Mullvadrb
                                .gsub(/\s+Visible\ location:\s+/, '')
                                .split(',')[0]
           country = ISO3166::Country.find_country_by_any_name(country_name)
-          status = status.prepend("#{I18n.t(:connected)} to #{country.emoji_flag} #{country.common_name}\n")
+          status = status.prepend("#{I18n.t(:connected_to)} #{country.emoji_flag} #{country.common_name}\n")
                          .push("\n")
                          .join("\n")
         # Blocked: Failure to generate tunnel parameters: Failure to select a matching tunnel relay
